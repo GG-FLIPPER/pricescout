@@ -1,0 +1,45 @@
+// scraper/g2g.js
+// Replace PROXY_URL with your Cloudflare Worker URL after deploying
+const g2gScraper = {
+  async search(query, category) {
+    try {
+      const targetUrl = `https://www.g2g.com/search?query=${encodeURIComponent(query)}`;
+      const response = await fetch(`${PROXY_URL}?url=${encodeURIComponent(targetUrl)}`);
+      const html = await response.text();
+
+      const results = [];
+      const blockRegex = /<(?:div|li|article)[^>]*class="[^"]*(?:offer|product|card)[^"]*"[^>]*>([\s\S]*?)<\/(?:div|li|article)>/gi;
+      let block;
+
+      while ((block = blockRegex.exec(html)) !== null) {
+        const b = block[0];
+        const titleMatch = b.match(/title="([^"]+)"|<h[34][^>]*>([\s\S]*?)<\/h[34]>/i);
+        const priceMatch = b.match(/class="[^"]*price[^"]*"[^>]*>([\s\S]*?)<\/[^>]+>/i);
+        const linkMatch = b.match(/href="(https?:\/\/www\.g2g\.com\/offer\/[^"]+|\/offer\/[^"]+)"/i);
+
+        if (titleMatch && priceMatch && linkMatch) {
+          const titleText = (titleMatch[1] || titleMatch[2] || '').replace(/<[^>]+>/g, '').trim();
+          const priceText = priceMatch[1].replace(/<[^>]+>/g, '').trim();
+          const priceNum = priceText.match(/[\d,.]+/);
+          const href = linkMatch[1];
+
+          if (titleText && priceNum) {
+            results.push({
+              platform: 'g2g',
+              title: titleText,
+              price: parseFloat(priceNum[0].replace(',', '')),
+              currency: 'USD',
+              url: href.startsWith('http') ? href : `https://www.g2g.com${href}`,
+              seller_rating: null
+            });
+          }
+        }
+      }
+
+      return results.slice(0, 10);
+    } catch (error) {
+      console.error('G2G scraper error:', error);
+      return [];
+    }
+  }
+};

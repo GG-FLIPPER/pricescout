@@ -1,0 +1,61 @@
+// manifest.json
+{
+  "manifest_version": 3,
+  "name": "PriceScout",
+  "version": "1.0.0",
+  "description": "Compare prices for digital goods across gaming marketplaces in real time",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.g2g.com/*",
+    "https://funpay.com/*",
+    "https://www.playerauctions.com/*",
+    "https://www.eldorado.gg/*",
+    "https://www.z2u.com/*",
+    "https://stewieshop.mysellauth.com/*",
+    "https://gameflip.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.g2g.com/*",
+        "https://funpay.com/*",
+        "https://www.playerauctions.com/*",
+        "https://www.eldorado.gg/*",
+        "https://www.z2u.com/*",
+        "https://stewieshop.mysellauth.com/*",
+        "https://gameflip.com/*"
+      ],
+      "js": [
+        "utils/similarity.js",
+        "content/detector.js",
+        "content/sidebar.js"
+      ],
+      "css": ["content/sidebar.css"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
