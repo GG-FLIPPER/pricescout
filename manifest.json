@@ -1,0 +1,51 @@
+{
+  "manifest_version": 3,
+  "name": "PriceScout",
+  "version": "1.0.0",
+  "description": "Compare prices for digital goods across gaming marketplaces in real time",
+  "permissions": ["storage", "activeTab", "notifications", "offscreen"],
+  "host_permissions": [
+    "https://www.g2g.com/*",
+    "https://funpay.com/*",
+    "https://www.eldorado.gg/*",
+    "https://www.playerauctions.com/*",
+    "https://www.z2u.com/*",
+    "https://gameflip.com/*",
+    "https://stewieshop.mysellauth.com/*",
+    "https://plati.market/*",
+    "https://ouo.io/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.g2g.com/*",
+        "https://funpay.com/*",
+        "https://www.eldorado.gg/*",
+        "https://www.playerauctions.com/*",
+        "https://www.z2u.com/*",
+        "https://gameflip.com/*",
+        "https://stewieshop.mysellauth.com/*",
+        "https://plati.market/*"
+      ],
+      "js": ["content/sidebar.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["content/sidebar.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

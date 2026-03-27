@@ -1,0 +1,45 @@
+.pricescout-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  height: 100vh;
+  background: #fff;
+  border-left: 1px solid #e5e5e5;
+  z-index: 999999;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #0a0a0a;
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.08);
+}
+
+.pricescout-header {
+  padding: 16px;
+  font-weight: 700;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.pricescout-body {
+  padding: 16px;
+}
+
+.pricescout-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 12px;
+}
+
+.pricescout-card-title {
+  font-weight: 600;
+}
+
+.pricescout-card-meta {
+  color: #666;
+  font-size: 12px;
+  margin: 6px 0;
+}
+
+.pricescout-link {
+  color: #2563eb;
+  text-decoration: none;
+}
